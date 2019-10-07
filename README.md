@@ -1,8 +1,9 @@
-# AngularPwaApp
+# Angular-PWA-App
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 8.0.6.
 
 Boilerplate generate to create a server and front to manage the push notifications. With angular and Node-express
+
 ## Install
 
 * Install dependencias via npm or yarn
