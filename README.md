@@ -2,26 +2,24 @@
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 8.0.6.
 
-## Development server
+Boilerplate generate to create a server and front to manage the push notifications. With angular and Node-express
+## Install
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
+* Install dependencias via npm or yarn
 
-## Code scaffolding
+## Demo
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+* First you must run server (By default open on port 9000):
+```
+npm run server
+```
 
-## Build
+* Go to src (front) and create a new build and up the server
+```
+ng build --prod --aot
+cd dist
+http-server ./angular-pwa-app -o
+```
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory. Use the `--prod` flag for a production build.
-
-## Running unit tests
-
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
-
-## Running end-to-end tests
-
-Run `ng e2e` to execute the end-to-end tests via [Protractor](http://www.protractortest.org/).
-
-## Further help
-
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI README](https://github.com/angular/angular-cli/blob/master/README.md).
+* By default will deploy in the port 8080, so you can open http://127.0.0.1:8080
+and subscribe and send push notifications.
