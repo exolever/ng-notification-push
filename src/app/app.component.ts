@@ -5,6 +5,7 @@ import { NewsletterService } from './services/newsletter.service';
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
+  standalone: false,
 })
 export class AppComponent {
   private readonly swPush = inject(SwPush);
