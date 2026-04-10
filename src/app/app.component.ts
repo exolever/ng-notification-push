@@ -1,24 +1,22 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { SwPush } from '@angular/service-worker';
 import { NewsletterService } from './services/newsletter.service';
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
+  standalone: false,
 })
 export class AppComponent {
+  private readonly swPush = inject(SwPush);
+  private readonly newsletterService = inject(NewsletterService);
 
-  sub: PushSubscription;
-  readonly VAPID_PUBLIC_KEY = 'BMloIXro0C20iV6Nlo90bBPKFv0RF9xuy-QOgOPLHZbUO8FRTLseMljQMxlZCjnZvTpbq-dEYbL3aqsJge5JbH0';
-
-  constructor(
-    private swPush: SwPush,
-    private newsletterService: NewsletterService
-  ) { }
+  sub: PushSubscription | null = null;
+  readonly vapidPublicKey = 'BMloIXro0C20iV6Nlo90bBPKFv0RF9xuy-QOgOPLHZbUO8FRTLseMljQMxlZCjnZvTpbq-dEYbL3aqsJge5JbH0';
 
   subscribeToNotifications() {
     this.swPush.requestSubscription({
-      serverPublicKey: this.VAPID_PUBLIC_KEY
+      serverPublicKey: this.vapidPublicKey
     })
       .then(sub => {
         this.sub = sub;

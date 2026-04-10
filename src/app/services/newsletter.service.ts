@@ -1,17 +1,18 @@
-import {Injectable} from '@angular/core';
-import {HttpClient} from '@angular/common/http';
+import { inject, Injectable } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { Observable } from 'rxjs';
 
-@Injectable()
+@Injectable({
+  providedIn: 'root'
+})
 export class NewsletterService {
+  private readonly http = inject(HttpClient);
 
-  constructor(private http: HttpClient) { }
-
-  addPushSubscriber(sub) {
+  addPushSubscriber(sub: PushSubscription): Observable<unknown> {
     return this.http.post('http://localhost:9000/api/notifications', sub);
   }
 
-  send() {
+  send(): Observable<unknown> {
     return this.http.post('http://localhost:9000/api/newsletter', null);
   }
-
 }

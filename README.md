@@ -6,21 +6,23 @@ Boilerplate generate to create a server and front to manage the push notificatio
 
 ## Install
 
-* Install dependencias via npm or yarn
+```bash
+npm install
+```
 
 ## Demo
 
-* First you must run server (By default open on port 9000):
-```
+* Start the API server on port 9000:
+```bash
 npm run server
 ```
 
-* Go to src (front) and create a new build and up the server
-```
-ng build --prod --aot
-cd dist
-http-server ./angular-pwa-app -o
+* Start the Angular app:
+```bash
+npm start
 ```
 
-* By default will deploy in the port 8080, so you can open http://127.0.0.1:8080
-and subscribe and send push notifications.
+* Create a production build:
+```bash
+npm run build
+```

@@ -1,10 +1,8 @@
 import { BrowserModule } from '@angular/platform-browser';
-import { NgModule } from '@angular/core';
+import { NgModule, isDevMode, provideBrowserGlobalErrorListeners } from '@angular/core';
 
 import { AppComponent } from './app.component';
 import { ServiceWorkerModule } from '@angular/service-worker';
-import { environment } from '../environments/environment';
-import { NewsletterService } from './services/newsletter.service';
 import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({
@@ -14,10 +12,13 @@ import { HttpClientModule } from '@angular/common/http';
   imports: [
     BrowserModule,
     HttpClientModule,
-    ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production })
+    ServiceWorkerModule.register('ngsw-worker.js', {
+      enabled: !isDevMode(),
+      registrationStrategy: 'registerWhenStable:30000'
+    })
   ],
   providers: [
-    NewsletterService,
+    provideBrowserGlobalErrorListeners()
   ],
   bootstrap: [AppComponent]
 })
