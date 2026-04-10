@@ -1,31 +1,54 @@
-import { TestBed, async } from '@angular/core/testing';
+import { TestBed } from '@angular/core/testing';
+import { SwPush } from '@angular/service-worker';
+import { of } from 'rxjs';
 import { AppComponent } from './app.component';
+import { NewsletterService } from './services/newsletter.service';
 
 describe('AppComponent', () => {
-  beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      declarations: [
-        AppComponent
-      ],
+  const swPushMock = {
+    requestSubscription: vi.fn()
+  };
+  const newsletterServiceMock = {
+    addPushSubscriber: vi.fn(),
+    send: vi.fn()
+  };
+
+  beforeEach(async () => {
+    swPushMock.requestSubscription.mockReset();
+    newsletterServiceMock.addPushSubscriber.mockReset();
+    newsletterServiceMock.send.mockReset();
+    newsletterServiceMock.addPushSubscriber.mockReturnValue(of({}));
+    newsletterServiceMock.send.mockReturnValue(of({}));
+
+    await TestBed.configureTestingModule({
+      declarations: [AppComponent],
+      providers: [
+        { provide: SwPush, useValue: swPushMock },
+        { provide: NewsletterService, useValue: newsletterServiceMock }
+      ]
     }).compileComponents();
-  }));
+  });
 
   it('should create the app', () => {
     const fixture = TestBed.createComponent(AppComponent);
-    const app = fixture.debugElement.componentInstance;
+    const app = fixture.componentInstance;
     expect(app).toBeTruthy();
   });
 
-  it(`should have as title 'angular-pwa-app'`, () => {
-    const fixture = TestBed.createComponent(AppComponent);
-    const app = fixture.debugElement.componentInstance;
-    expect(app.title).toEqual('angular-pwa-app');
-  });
-
-  it('should render title in a h1 tag', () => {
+  it('should render notification action buttons', () => {
     const fixture = TestBed.createComponent(AppComponent);
     fixture.detectChanges();
-    const compiled = fixture.debugElement.nativeElement;
-    expect(compiled.querySelector('h1').textContent).toContain('Welcome to angular-pwa-app!');
+    const compiled = fixture.nativeElement as HTMLElement;
+    const buttons = Array.from(compiled.querySelectorAll('button')).map(button => button.textContent?.trim());
+
+    expect(buttons).toContain('Subscribe');
+    expect(buttons).toContain('Send');
+  });
+
+  it('should send newsletters through the service', () => {
+    const fixture = TestBed.createComponent(AppComponent);
+    fixture.componentInstance.sendNewsletter();
+
+    expect(newsletterServiceMock.send).toHaveBeenCalledTimes(1);
   });
 });
